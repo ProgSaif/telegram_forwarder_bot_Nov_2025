@@ -78,7 +78,7 @@ async def handler(event):
     if msg.from_id and getattr(msg.from_id, "user_id", None) == me.id:
         return
 
-    # Only process messages from resolved sources
+    # Only process messages from resolved sources  
     if event.chat_id not in [s.id for s in client.sources_entities]:
         return
 
