@@ -1,0 +1,100 @@
+Overview
+This is a Python-based Telegram bot that automatically copies messages from multiple source channels to multiple target channels. The bot preserves message formatting, media, and buttons when forwarding. It was imported from GitHub and configured to run in the Replit environment on November 21, 2025.
+
+Project Architecture
+Technology Stack
+Language: Python 3.11
+Main Library: Telethon (Telegram client library)
+Dependencies:
+telethon: Telegram API client
+python-dotenv: Environment variable management
+Project Structure
+.
+├── main.py              # Main bot script with message forwarding logic
+├── requirements.txt     # Python dependencies
+├── Procfile            # Process configuration (legacy, not used in Replit)
+├── .gitignore          # Git ignore rules for Python projects
+└── replit.md           # This documentation file
+
+How It Works
+The bot connects to Telegram using the Telethon library
+Listens for new messages in configured source channels
+Copies each message (with formatting, media, and buttons) to all target channels
+Includes flood wait error handling and retry logic
+Prevents message loops by ignoring messages sent by the bot itself
+Configuration
+Required Environment Variables
+The bot requires the following environment variables to be set in Replit Secrets:
+
+API_ID: Your Telegram API ID (get from https://my.telegram.org)
+API_HASH: Your Telegram API hash (get from https://my.telegram.org)
+SOURCES: Comma-separated list of source channel identifiers (e.g., @channel1,@channel2,-1001234567890)
+TARGETS: Comma-separated list of target channel identifiers (e.g., @target1,@target2,-1009876543210)
+Optional Environment Variables
+SESSION_NAME: Name for the Telegram session file (default: multi-fwd-session)
+DELAY: Delay in seconds between forwarding to different targets (default: 0.5)
+Channel Identifiers
+Channels can be specified using:
+
+Username format: @channelname
+ID format: -1001234567890 (for private channels)
+Setup Instructions
+First-Time Setup
+Get Telegram API Credentials:
+
+Visit https://my.telegram.org
+Log in with your phone number
+Go to "API development tools"
+Create an application to get your API_ID and API_HASH
+Add Secrets in Replit:
+
+Click on "Secrets" (lock icon) in the left sidebar
+Add the required environment variables:
+API_ID: Your Telegram API ID
+API_HASH: Your Telegram API hash
+SOURCES: Your source channels (comma-separated)
+TARGETS: Your target channels (comma-separated)
+Start the Bot:
+
+The bot will start automatically via the workflow
+On first run, you'll need to authenticate:
+Enter your phone number when prompted
+Enter the code sent to your Telegram app
+If you have 2FA enabled, enter your password
+Verify Operation:
+
+Check the console logs to ensure the bot logged in successfully
+Test by sending a message to one of your source channels
+Verify it appears in all target channels
+Workflow Configuration
+The project uses a single workflow:
+
+Name: Telegram Bot
+Command: python main.py
+Type: Console (long-running background process)
+Session Management
+The bot creates a session file (e.g., multi-fwd-session.session) after the first authentication. This file is:
+
+Stored locally in the Replit workspace
+Included in .gitignore to prevent accidental commits
+Allows the bot to reconnect without re-authentication
+Error Handling
+The bot includes built-in error handling for:
+
+FloodWaitError: Automatically waits the required time before retrying
+Missing credentials: Exits with clear error message if API_ID or API_HASH is missing
+Message copy failures: Logs errors but continues processing other messages
+Recent Changes
+2025-11-21: Initial import and Replit environment setup
+Installed Python 3.11 and dependencies
+Created .gitignore for Python projects
+Configured workflow to run the bot
+Created project documentation
+User Preferences
+None recorded yet.
+
+Notes
+This is a bot application (no frontend/backend web components)
+Requires active Telegram API credentials to function
+The bot must be added as an admin to source and target channels if they are private
+Message delay prevents Telegram rate limiting
